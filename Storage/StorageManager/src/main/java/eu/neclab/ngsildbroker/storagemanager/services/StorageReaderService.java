@@ -62,7 +62,7 @@ public class StorageReaderService {
 			QueryParams qp = DataSerializer.getQueryParams(payload);
 			entityList = storageReaderDao.query(qp).getActualDataString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		logger.trace("Pushing result to Kafka...");
 		logger.debug(storageReaderDao.getListAsJsonArray(entityList));

@@ -104,7 +104,7 @@ public class EntityController {// implements EntityHandlerInterface {
 					.build();
 		} catch (ResponseException exception) {
 			logger.error("Exception :: ", exception);
-			exception.printStackTrace();
+			
 			return ResponseEntity.status(exception.getHttpStatus()).body(new RestResponse(exception).toJsonBytes());
 		} catch (DateTimeParseException exception) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -207,7 +207,7 @@ public class EntityController {// implements EntityHandlerInterface {
 							.toJsonBytes());
 		} catch (Exception exception) {
 			logger.error("Exception :: ", exception);
-			exception.printStackTrace();
+			
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new RestResponse(ErrorType.InternalError, exception.getLocalizedMessage()).toJsonBytes());
 		}

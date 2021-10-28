@@ -18,7 +18,7 @@ public class Append extends BaseEntityModificationOperation {
 	}
 
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

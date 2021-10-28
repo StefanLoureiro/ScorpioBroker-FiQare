@@ -32,9 +32,9 @@ public class DeleteResult extends BaseResult {
 	}
 
 
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import eu.neclab.ngsildbroker.commons.tools.HttpUtils;
 @RestController
 @RequestMapping("/health")
 public class InfoServerController {
+	private final static Logger logger = LogManager.getLogger(InfoServerController.class);
 	private static final int QUERY_MANAGER = 0;
 	private static final int ENTITY_MANAGER = 1;
 	private static final int STORAGE_MANAGER = 2;
@@ -63,7 +65,7 @@ public class InfoServerController {
 			microService2HttpMethod.put(HISTORY_MANAGER, 0);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 
 	}

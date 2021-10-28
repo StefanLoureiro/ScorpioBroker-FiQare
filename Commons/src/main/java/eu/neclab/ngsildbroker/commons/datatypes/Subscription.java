@@ -131,9 +131,9 @@ public class Subscription extends Query {
 	public void setQueryTerm(QueryTerm queryTerm) {
 		this.queryTerm = queryTerm;
 	}
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 	public boolean isActive() {

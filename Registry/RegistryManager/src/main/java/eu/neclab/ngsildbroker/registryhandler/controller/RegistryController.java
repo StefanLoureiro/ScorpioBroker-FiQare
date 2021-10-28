@@ -153,7 +153,7 @@ public class RegistryController {
 		} catch (ResponseException exception) {
 			return ResponseEntity.status(exception.getHttpStatus()).body(new RestResponse(exception).toJsonBytes());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new RestResponse(ErrorType.InternalError, e.getLocalizedMessage()).toJsonBytes());
 		}
@@ -190,7 +190,7 @@ public class RegistryController {
 		} catch (ResponseException exception) {
 			return ResponseEntity.status(exception.getHttpStatus()).body(new RestResponse(exception).toJsonBytes());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new RestResponse(ErrorType.InternalError, e.getLocalizedMessage()).toJsonBytes());
 		}

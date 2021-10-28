@@ -90,8 +90,8 @@ public class QueryResult extends BaseResult {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 }

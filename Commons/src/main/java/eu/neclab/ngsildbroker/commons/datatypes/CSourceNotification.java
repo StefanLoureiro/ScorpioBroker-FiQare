@@ -138,7 +138,7 @@ public class CSourceNotification extends CSourceQueryResult {
 
 
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

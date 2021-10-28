@@ -60,7 +60,7 @@ public class CreateEntityRequest extends EntityRequest {
 				this.keyValue = objectMapper.writeValueAsString(getKeyValueEntity(json));
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
 	}

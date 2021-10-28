@@ -5,7 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map.Entry;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -22,6 +23,7 @@ import eu.neclab.ngsildbroker.commons.datatypes.Notification;
 import eu.neclab.ngsildbroker.commons.tools.SerializationTools;
 
 public class NotificationGsonAdapter implements JsonSerializer<Notification>, JsonDeserializer<Notification>{
+	private final static Logger logger = LogManager.getLogger(NotificationGsonAdapter.class);
 	
 	@Override
 	public JsonElement serialize(Notification src, Type typeOfSrc, JsonSerializationContext context) {
@@ -58,21 +60,21 @@ public class NotificationGsonAdapter implements JsonSerializer<Notification>, Js
 					id = new URI(value.getAsString());
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}else if(NGSIConstants.NGSI_LD_SUBSCRIPTION_ID.equals(key)) {
 				try {
 					subscriptionId = new URI(value.getAsJsonArray().get(0).getAsJsonObject().get(NGSIConstants.JSON_LD_ID).getAsString());
 				} catch (URISyntaxException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}else if(NGSIConstants.NGSI_LD_NOTIFIED_AT.equals(key)) {
 				try {
 					notifiedAt = SerializationTools.date2Long(value.getAsJsonArray().get(0).getAsJsonObject().get(NGSIConstants.JSON_LD_VALUE).getAsString());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(e);
 				}
 			}else if(NGSIConstants.NGSI_LD_DATA.equals(key)) {
 				data = context.deserialize(value, SerializationTypes.entitiesType);

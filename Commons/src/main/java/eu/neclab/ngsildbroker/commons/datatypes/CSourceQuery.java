@@ -19,9 +19,9 @@ public class CSourceQuery extends Query {
 		super(customFlags, attributeNames, entities, ldContext, ldGeoQuery, ldQuery, ldTempQuery, requestorList);
 		// TODO Auto-generated constructor stub
 	}
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

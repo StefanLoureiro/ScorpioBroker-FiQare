@@ -95,7 +95,7 @@ public class HistoryService {
 			kafkaOperations.pushToKafka(producerChannels.temporalEntityWriteChannel(),
 					UUID.randomUUID().toString().getBytes(), DataSerializer.toJson(request).getBytes());
 		} catch (ResponseException e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 			throw new ResponseException(ErrorType.InternalError,
 					"Failed to push entity to kafka. " + e.getLocalizedMessage());
 		}
@@ -106,7 +106,7 @@ public class HistoryService {
 		try {
 			writerDAO.storeTemporalEntity(request);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 			throw new ResponseException(e.getLocalizedMessage());
 		}
 

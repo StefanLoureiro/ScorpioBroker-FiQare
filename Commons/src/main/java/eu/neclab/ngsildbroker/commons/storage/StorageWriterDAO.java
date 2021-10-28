@@ -81,7 +81,7 @@ public class StorageWriterDAO {
 		try {
 			String sql;
 			int n = 0;
-			if (!tenantidvalue.equals(null)) {
+			if (tenantidvalue != null) {
 				sql = "INSERT INTO " + tableName
 						+ " (tenant_id, database_name) VALUES (?, ?) ON CONFLICT(tenant_id) DO UPDATE SET tenant_id = EXCLUDED.tenant_id";
 				synchronized (writerJdbcTemplate) {
@@ -97,7 +97,7 @@ public class StorageWriterDAO {
 			return true; // (n>0);
 		} catch (Exception e) {
 			logger.error("Exception ::", e);
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -123,7 +123,7 @@ public class StorageWriterDAO {
 			return true; // (n>0);
 		} catch (Exception e) {
 			logger.error("Exception ::", e);
-			e.printStackTrace();
+			
 		}
 
 		return false;
@@ -334,7 +334,7 @@ public class StorageWriterDAO {
 						databasename);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 		} else {
 			tenant = null;
@@ -374,7 +374,7 @@ public class StorageWriterDAO {
 				tenantDataSource = createDataSourceForTenantId(tenantidvalue);
 			} catch (ResponseException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 			flywayMigrate(tenantDataSource);
 			resolvedDataSources.put(tenantidvalue, tenantDataSource);

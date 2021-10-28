@@ -340,7 +340,7 @@ public class ParamsResolver {
 			jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
 		} catch (JsonProcessingException e) {
 			logger.error("Exception ::", e);
-			e.printStackTrace();
+			
 		}
 		logger.trace("getJsonLdAttribute():: completed");
 		return jsonString;

@@ -17,9 +17,9 @@ public class Update extends BaseEntityModificationOperation {
 		super(customFlags, data, id, ldContext);
 		// TODO Auto-generated constructor stub
 	}
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

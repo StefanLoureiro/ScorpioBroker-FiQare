@@ -161,7 +161,8 @@ public class StartupConfig {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// unchanged intentional
-			e.printStackTrace();
+			logger.error("Exception ::", e);
+			Thread.currentThread().interrupt();
 		}
 		String current = this.currentRegistration;
 		if (!current.equals(getCSInformationNode())) {

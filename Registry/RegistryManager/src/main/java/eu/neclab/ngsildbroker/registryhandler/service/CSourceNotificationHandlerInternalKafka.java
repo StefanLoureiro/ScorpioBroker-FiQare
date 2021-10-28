@@ -1,7 +1,8 @@
 package eu.neclab.ngsildbroker.registryhandler.service;
 
 import java.util.ArrayList;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import eu.neclab.ngsildbroker.commons.datatypes.CSourceNotification;
 import eu.neclab.ngsildbroker.commons.datatypes.CSourceRegistration;
 import eu.neclab.ngsildbroker.commons.datatypes.Subscription;
@@ -13,7 +14,7 @@ import eu.neclab.ngsildbroker.registryhandler.config.CSourceProducerChannel;
 
 
 public class CSourceNotificationHandlerInternalKafka implements CSourceNotificationHandler{
-	
+	private final static Logger logger = LogManager.getLogger(CSourceNotificationHandlerInternalKafka.class);
 	private KafkaOps kafkaOps;
 	private CSourceProducerChannel cSourceProducerChannel;
 	
@@ -36,7 +37,7 @@ public class CSourceNotificationHandlerInternalKafka implements CSourceNotificat
 			this.kafkaOps.pushToKafka(cSourceProducerChannel.csourceNotificationWriteChannel(),id, body);
 		} catch (ResponseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		
 	}

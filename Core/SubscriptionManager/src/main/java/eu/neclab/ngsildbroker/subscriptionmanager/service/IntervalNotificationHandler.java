@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
@@ -27,7 +28,7 @@ import eu.neclab.ngsildbroker.commons.serialization.DataSerializer;
 import eu.neclab.ngsildbroker.commons.tools.EntityTools;
 
 public class IntervalNotificationHandler {
-
+	private final static Logger logger = LogManager.getLogger(IntervalNotificationHandler.class);
 	private HashMap<String, TimerTask> id2TimerTask = new HashMap<String, TimerTask>();
 	private Timer executor = new Timer(true);
 
@@ -51,7 +52,7 @@ public class IntervalNotificationHandler {
 	public void addSub(SubscriptionRequest subscriptionRequest) {
 		MyTimer timer = new MyTimer(subscriptionRequest);
 		id2TimerTask.put(subscriptionRequest.getSubscription().getId().toString(), timer);
-		executor.schedule(timer, 0, subscriptionRequest.getSubscription().getTimeInterval() * 1000);
+		executor.schedule(timer, 0, subscriptionRequest.getSubscription().getTimeInterval() * (long)1000);
 	}
 
 	public List<String> getFromStorageManager(String storageManagerQuery) throws Exception {
@@ -116,10 +117,10 @@ public class IntervalNotificationHandler {
 						subscriptionRequest.getContext(), 0, null, this.subscriptionRequest.getTenant());
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 		};
 

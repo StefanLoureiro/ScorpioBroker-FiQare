@@ -97,7 +97,7 @@ public final class StringUtils {
 	 * @return String which is not started and ended with a removed string.
 	 */
 	public static String trimWithString(String source, String removed) {
-		if (!isSet(removed) || !isSet(removed)) {
+		if (!isSet(removed)) {
 			return source;
 		}
 		String ret = source;

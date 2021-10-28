@@ -180,7 +180,7 @@ public class SubscriptionService implements SubscriptionManager {
 			this.tenant2Ids2Type = subscriptionInfoDAO.getIds2Type();
 		} catch (ResponseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		httpUtils = HttpUtils.getInstance(contextResolverService);
 		notificationHandlerREST = new NotificationHandlerREST(this, contextResolverService, objectMapper);
@@ -211,11 +211,11 @@ public class SubscriptionService implements SubscriptionManager {
 					subscribe(subscription);
 				} catch (JsonParseException e) {
 					logger.error("Exception ::", e);
-					e.printStackTrace();
+					
 					continue;
 				} catch (ResponseException e) {
 					logger.error("Exception ::", e);
-					e.printStackTrace();
+					
 					continue;
 				}
 			}
@@ -277,7 +277,7 @@ public class SubscriptionService implements SubscriptionManager {
 							unsubscribe(subscription.getId(), subscriptionRequest.getHeaders());
 						} catch (ResponseException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							logger.error("Exception ::", e);
 						}
 					}
 				};
@@ -336,7 +336,7 @@ public class SubscriptionService implements SubscriptionManager {
 								DataSerializer.toJson(subscription).getBytes());
 					} catch (ResponseException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error("Exception ::", e);
 					}
 				}
 
@@ -854,7 +854,7 @@ public class SubscriptionService implements SubscriptionManager {
 		} catch (URISyntaxException e) {
 			// left empty intentionally should never happen because the uri should be
 			// already checked
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		update.setType(type);
 
@@ -904,7 +904,7 @@ public class SubscriptionService implements SubscriptionManager {
 		} catch (URISyntaxException e) {
 			// left empty intentionally should never happen because the uri should be
 			// already checked
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		append.setType(type);
 
@@ -999,10 +999,10 @@ public class SubscriptionService implements SubscriptionManager {
 						httpUtils.doPost(new URI(temp.toString()), body, additionalHeaders);
 					} catch (IOException e) {
 						// TODO what to do when a remote sub times out ? at the moment we just fail here
-						e.printStackTrace();
+						logger.error("Exception ::", e);
 					} catch (URISyntaxException e) {
 
-						e.printStackTrace();
+						logger.error("Exception ::", e);
 					}
 				}
 

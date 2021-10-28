@@ -430,7 +430,7 @@ public class CSourceService {
 			QueryResult csourceList = csourceDAO.queryExternalCsources(qp);
 			resultPayload = csourceDAO.getListAsJsonArray(csourceList.getActualDataString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		logger.trace("Pushing result to Kafka... ");
 		logger.trace("handleContextQuery() :: completed");

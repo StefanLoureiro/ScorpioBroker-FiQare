@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import java.security.SecureRandom;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
@@ -135,7 +137,7 @@ public class EntityService {
 	 */
 
 	private final EntityProducerChannel producerChannels;
-
+	SecureRandom random = new SecureRandom();
 	LocalDateTime start;
 	LocalDateTime end;
 	private ArrayListMultimap<String, String> entityIds = ArrayListMultimap.create();
@@ -224,12 +226,12 @@ public class EntityService {
 				success = true;
 			} catch (SQLTransientConnectionException e) {
 				logger.warn("SQL Exception attempting retry");
-				Random random = new Random();
 				int randomNumber = random.nextInt(4000) + 500;
 				try {
 					Thread.sleep(randomNumber);
 				} catch (InterruptedException e1) {
 					logger.error(e1);
+					Thread.currentThread().interrupt();
 				}
 			}
 		}
@@ -378,10 +380,10 @@ public class EntityService {
 							DataSerializer.toJson(request).getBytes());
 				} catch (UnsupportedEncodingException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("Exception ::", e);
 				} catch (ResponseException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error("Exception ::", e);
 				}
 			};
 		}.start();

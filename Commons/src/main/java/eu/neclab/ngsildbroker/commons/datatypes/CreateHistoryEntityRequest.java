@@ -75,8 +75,7 @@ public class CreateHistoryEntityRequest extends HistoryEntityRequest {
 			throw new ResponseException(ErrorType.InvalidRequest, "id and type are required fields");
 		}
 		this.attributeCount = 0;
-		if (jsonObject.get(NGSIConstants.NGSI_LD_CREATED_AT) == null
-				|| jsonObject.get(NGSIConstants.NGSI_LD_CREATED_AT) == null) {
+		if (jsonObject.get(NGSIConstants.NGSI_LD_CREATED_AT) == null) {
 			JsonArray temp = new JsonArray();
 			JsonObject tempObj = new JsonObject();
 			tempObj.addProperty(NGSIConstants.JSON_LD_TYPE, "DateTime");

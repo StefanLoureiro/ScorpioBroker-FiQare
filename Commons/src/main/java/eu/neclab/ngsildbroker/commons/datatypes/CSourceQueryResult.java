@@ -33,9 +33,9 @@ public class CSourceQueryResult extends BaseResult {
 	private List<CSourceRegistration> data;
 
 
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

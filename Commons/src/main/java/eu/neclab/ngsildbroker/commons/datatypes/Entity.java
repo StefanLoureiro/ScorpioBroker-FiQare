@@ -4,7 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import eu.neclab.ngsildbroker.commons.constants.NGSIConstants;
 
 /**
@@ -13,7 +14,7 @@ import eu.neclab.ngsildbroker.commons.constants.NGSIConstants;
  * @created 11-Jun-2018 11:32:45
  */
 public class Entity {
-
+	private final static Logger logger = LogManager.getLogger(Entity.class);
 	private URI id;
 	private GeoProperty location;
 	private GeoProperty observationSpace;
@@ -103,7 +104,7 @@ public class Entity {
 			allBaseProperties.add(modifiedAtProp);
 			allBaseProperties.add(observedAtProp);
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		if (properties != null) {
 			allBaseProperties.addAll(properties);

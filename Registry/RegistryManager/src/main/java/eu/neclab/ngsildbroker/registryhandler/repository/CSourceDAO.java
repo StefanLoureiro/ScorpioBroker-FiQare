@@ -146,7 +146,7 @@ public class CSourceDAO extends StorageReaderDAO {
 				sqlWhere = translateNgsildGeoqueryToPostgisQuery(gqr, qp.getGeometry(), qp.getCoordinates(),
 						qp.getGeoproperty());
 			} catch (ResponseException e) {
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 			fullSqlWhere.append(sqlWhere + " AND ");
 			sqlOk = true;

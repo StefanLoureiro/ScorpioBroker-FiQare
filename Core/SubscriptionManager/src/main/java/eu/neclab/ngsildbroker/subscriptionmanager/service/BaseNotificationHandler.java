@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Arrays;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
@@ -108,13 +109,13 @@ public abstract class BaseNotificationHandler implements NotificationHandler {
 								logger.debug("Json to be sent: " + jsonStr);
 								ResponseEntity<byte[]> reply = generateNotificationResponse(acceptHeader, jsonStr,
 										context);
-								logger.debug("body to be sent: " + reply.getBody().toString());
+								logger.debug("body to be sent: " + Arrays.toString(reply.getBody()));
 								sendReply(reply, callback, clientSettings);
 								subscriptionManagerService.reportSuccessfulNotification(tenantId, subId, now);
 							} catch (Exception e) {
 								logger.error("Exception ::", e);
 								subscriptionManagerService.reportFailedNotification(tenantId, subId, now);
-								e.printStackTrace();
+								
 							}
 						}
 
@@ -136,7 +137,7 @@ public abstract class BaseNotificationHandler implements NotificationHandler {
 			} catch (Exception e) {
 				logger.error("Excep	tion ::", e);
 				subscriptionManagerService.reportFailedNotification(tenantId, subId, now);
-				e.printStackTrace();
+				
 			}
 
 		}

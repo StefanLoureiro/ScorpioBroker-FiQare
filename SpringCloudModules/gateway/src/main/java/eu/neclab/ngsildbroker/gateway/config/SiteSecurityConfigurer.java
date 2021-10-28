@@ -29,15 +29,15 @@ public class SiteSecurityConfigurer extends WebSecurityConfigurerAdapter {
 			.logoutSuccessUrl("/")
 			.permitAll()
 			.and()
-			.csrf()
-			.disable();
+			.csrf();
+			//.disable();
 	     } else {
 	    	 http.antMatcher("/**")
 	    	 .authorizeRequests().antMatchers("/", "/webjars/**")
 	    	 .permitAll()
 	    	 .and()
-	    	 .csrf()
-	    	 .disable(); 
+	    	 .csrf();
+	    	 //.disable(); 
 	     }
 	}
 }

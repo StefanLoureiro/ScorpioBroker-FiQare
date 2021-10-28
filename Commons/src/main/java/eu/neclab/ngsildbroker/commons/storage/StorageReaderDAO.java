@@ -1,5 +1,5 @@
 package eu.neclab.ngsildbroker.commons.storage;
-
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ abstract public class StorageReaderDAO {
 	@Autowired
 	private HikariConfig hikariConfig;
 
-	public Random random = new Random();
+	SecureRandom random = new SecureRandom();
 
 	@PostConstruct
 	public void init() {
@@ -206,14 +206,14 @@ abstract public class StorageReaderDAO {
 	 */
 	protected String typesAndAttributeQuery(QueryParams qp) throws ResponseException {
 		String query = "";
-		if (qp.getCheck() == "NonDeatilsType" && qp.getAttrs() == null) {
+		if (qp.getCheck().equals("NonDeatilsType") && qp.getAttrs() == null) {
 			int number = random.nextInt(999999);
 			query = "select jsonb_build_object('" + NGSIConstants.JSON_LD_ID + "','urn:ngsi-ld:EntityTypeList:" + number
 					+ "','" + NGSIConstants.JSON_LD_TYPE + "', jsonb_build_array('" + NGSIConstants.NGSI_LD_ENTITY_LIST
 					+ "'), '" + NGSIConstants.NGSI_LD_TYPE_LIST + "',json_agg(distinct jsonb_build_object('"
 					+ NGSIConstants.JSON_LD_ID + "', type)::jsonb)) from entity;";
 			return query;
-		} else if (qp.getCheck() == "deatilsType" && qp.getAttrs() == null) {
+		} else if (qp.getCheck().equals("deatilsType") && qp.getAttrs() == null) {
 			query = "select distinct jsonb_build_object('" + NGSIConstants.JSON_LD_ID + "',type,'"
 					+ NGSIConstants.JSON_LD_TYPE + "', jsonb_build_array('" + NGSIConstants.NGSI_LD_ENTITY_TYPE
 					+ "'), '" + NGSIConstants.NGSI_LD_TYPE_NAME + "', jsonb_build_array(jsonb_build_object('"
@@ -222,7 +222,7 @@ abstract public class StorageReaderDAO {
 					+ "', attribute.key))) from entity, jsonb_each(data_without_sysattrs - '" + NGSIConstants.JSON_LD_ID
 					+ "' - '" + NGSIConstants.JSON_LD_TYPE + "') attribute group by id;";
 			return query;
-		} else if (qp.getCheck() == "type" && qp.getAttrs() != null) {
+		} else if (qp.getCheck().equals("type") && qp.getAttrs() != null) {
 			String type = qp.getAttrs();
 			query = "with r as (select distinct attribute.key as mykey, jsonb_agg(distinct jsonb_build_object('"
 					+ NGSIConstants.JSON_LD_ID
@@ -241,7 +241,7 @@ abstract public class StorageReaderDAO {
 					+ "',jsonb_build_array('" + NGSIConstants.NGSI_LD_ATTRIBUTE
 					+ "')))) from entity, r attribute where type='" + type + "' group by type;";
 			return query;
-		} else if (qp.getCheck() == "NonDeatilsAttributes" && qp.getAttrs() == null) {
+		} else if (qp.getCheck().equals("NonDeatilsAttributes") && qp.getAttrs() == null) {
 			int number = random.nextInt(999999);
 			query = "select jsonb_build_object('" + NGSIConstants.JSON_LD_ID + "','urn:ngsi-ld:AttributeList:" + number
 					+ "','" + NGSIConstants.JSON_LD_TYPE + "', jsonb_build_array('"
@@ -251,7 +251,7 @@ abstract public class StorageReaderDAO {
 					+ NGSIConstants.JSON_LD_ID + "'-'" + NGSIConstants.JSON_LD_TYPE + "') attribute;";
 			return query;
 
-		} else if (qp.getCheck() == "deatilsAttributes" && qp.getAttrs() == null) {
+		} else if (qp.getCheck().equals("deatilsAttributes") && qp.getAttrs() == null) {
 			query = "select jsonb_build_object('" + NGSIConstants.JSON_LD_ID + "', attribute.key,'"
 					+ NGSIConstants.JSON_LD_TYPE + "','" + NGSIConstants.NGSI_LD_ATTRIBUTE + "','"
 					+ NGSIConstants.NGSI_LD_ATTRIBUTE_NAME + "',jsonb_build_object('" + NGSIConstants.JSON_LD_ID
@@ -261,7 +261,7 @@ abstract public class StorageReaderDAO {
 					+ NGSIConstants.JSON_LD_TYPE + "') attribute group by attribute.key;";
 			return query;
 
-		} else if (qp.getCheck() == "Attribute" && qp.getAttrs() != null) {
+		} else if (qp.getCheck().equals("Attribute") && qp.getAttrs() != null) {
 			String type = qp.getAttrs();
 			query = "with r as(select count(data_without_sysattrs->'" + type
 					+ "') as mycount  from entity), y as(select  jsonb_agg(distinct jsonb_build_object('"
@@ -357,7 +357,7 @@ abstract public class StorageReaderDAO {
 				sqlWhereProperty = translateNgsildGeoqueryToPostgisQuery(gqr, qp.getGeometry(), qp.getCoordinates(),
 						qp.getGeoproperty());
 			} catch (ResponseException e) {
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 			fullSqlWhereProperty.append(" AND ");
 			fullSqlWhereProperty.append(sqlWhereProperty);
@@ -568,7 +568,7 @@ abstract public class StorageReaderDAO {
 				sqlWhereProperty = translateNgsildGeoqueryToPostgisQuery(gqr, qp.getGeometry(), qp.getCoordinates(),
 						qp.getGeoproperty());
 			} catch (ResponseException e) {
-				e.printStackTrace();
+				logger.error("Exception ::", e);
 			}
 			fullSqlWhereProperty.append(" AND ");
 			fullSqlWhereProperty.append(sqlWhereProperty);

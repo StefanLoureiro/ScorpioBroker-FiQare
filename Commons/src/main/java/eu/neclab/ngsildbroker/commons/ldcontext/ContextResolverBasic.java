@@ -50,6 +50,7 @@ import eu.neclab.ngsildbroker.commons.tools.SerializationTools;
 												// uses rawtypes
 public class ContextResolverBasic {
 	private final static Logger logger = LogManager.getLogger(ContextResolverBasic.class);
+	
 	private URI CORE_CONTEXT_URL;
 	@Value("${context.coreurl:https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld}")
 	private String CORE_CONTEXT_URL_STR;
@@ -173,7 +174,7 @@ public class ContextResolverBasic {
 			}
 			throw new ResponseException(ErrorType.InvalidRequest);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest, e.getMessage());
 		}
 	}
@@ -227,7 +228,7 @@ public class ContextResolverBasic {
 			}
 			return JsonUtils.toPrettyString(expanded.get(1).get(0));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest, e.getLocalizedMessage());
 		}
 
@@ -1029,10 +1030,10 @@ public class ContextResolverBasic {
 
 			return RDFDatasetUtils.toNQuads(rdf);
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		}
 	}
@@ -1046,10 +1047,10 @@ public class ContextResolverBasic {
 			}
 			return compact(json, context, contextLinks);
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		}
 
@@ -1067,10 +1068,10 @@ public class ContextResolverBasic {
 			// json.remove(NGSIConstants.JSON_LD_CONTEXT);
 			return compact(JsonUtils.fromString(body), null, null);
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest);
 		}
 	}
@@ -1111,7 +1112,7 @@ public class ContextResolverBasic {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			throw new ResponseException(ErrorType.InvalidRequest, e.getMessage());
 		}
 		return result;
@@ -1155,7 +1156,7 @@ public class ContextResolverBasic {
 					DataSerializer.toJson(sorted).getBytes());
 		} catch (ResponseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return AT_CONTEXT_BASE_URL + hash;
 	}

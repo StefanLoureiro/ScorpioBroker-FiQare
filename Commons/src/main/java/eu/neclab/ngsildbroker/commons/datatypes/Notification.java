@@ -92,7 +92,7 @@ public class Notification extends QueryResult {
 
 
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

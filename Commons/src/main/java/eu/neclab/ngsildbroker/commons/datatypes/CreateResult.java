@@ -33,7 +33,7 @@ public class CreateResult extends BaseResult {
 
 
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

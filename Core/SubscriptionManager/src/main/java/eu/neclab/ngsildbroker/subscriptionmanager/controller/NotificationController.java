@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import eu.neclab.ngsildbroker.commons.constants.AppConstants;
 import eu.neclab.ngsildbroker.commons.constants.NGSIConstants;
 import eu.neclab.ngsildbroker.commons.exceptions.ResponseException;
@@ -20,7 +21,7 @@ import eu.neclab.ngsildbroker.commons.tools.HttpUtils;
 @RestController
 @RequestMapping("/remotenotify")
 public class NotificationController {
-	
+	private final static Logger logger = LogManager.getLogger(NotificationController.class);
 	@Autowired
 	SubscriptionManager subscriptionManager;
 	
@@ -33,7 +34,7 @@ public class NotificationController {
 			subscriptionManager.remoteNotify(id, DataSerializer.getNotification(resolver.expand(payload, HttpUtils.getAtContext(req),true, AppConstants.SUBSCRIPTIONS_URL_ID)));
 		} catch (ResponseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 		
 	}

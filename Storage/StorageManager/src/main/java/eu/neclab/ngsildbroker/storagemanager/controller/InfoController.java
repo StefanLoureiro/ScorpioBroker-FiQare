@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import eu.neclab.ngsildbroker.storagemanager.repository.EntityStorageReaderDAO;
 @RestController
 @RequestMapping("/scorpio/v1/info")
 public class InfoController {
+	private final static Logger logger = LogManager.getLogger(InfoController.class);
 	private static final int QUERY_MANAGER = 0;
 	private static final int ENTITY_MANAGER = 1;
 	private static final int STORAGE_MANAGER = 2;
@@ -71,7 +73,7 @@ public class InfoController {
 			microService2HttpMethod.put(HISTORY_MANAGER, 0);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 		}
 
 	}

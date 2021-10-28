@@ -431,7 +431,7 @@ public class QueryService {
 						// fromCsources.forEach(e -> logger.debug(e));
 						return fromCsources;
 					} catch (Exception e) {
-						e.printStackTrace();
+						
 						logger.error(
 								"No reply from registry. Looks like you are running without a context source registry.");
 						logger.error(e.getMessage());
@@ -451,6 +451,7 @@ public class QueryService {
 				fromStorage = futureStorageManager.get();
 			} catch (Exception e) {
 				logger.error("Failed to get data from storage", e);
+				Thread.currentThread().interrupt();
 				throw new ResponseException(ErrorType.InternalError, "Failed to get data from storage");
 			}
 			QueryResult fromCsources;
@@ -458,6 +459,7 @@ public class QueryService {
 				fromCsources = futureContextRegistry.get();
 			} catch (Exception e) {
 				logger.error("Failed to get data from registry", e);
+				Thread.currentThread().interrupt();
 				throw new ResponseException(ErrorType.InternalError, "Failed to get data from registry");
 			}
 			// logger.trace("response from storage :: ");

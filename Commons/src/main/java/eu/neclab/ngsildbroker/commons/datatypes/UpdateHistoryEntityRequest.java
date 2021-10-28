@@ -65,7 +65,7 @@ public class UpdateHistoryEntityRequest extends HistoryEntityRequest {
 					.getAsJsonObject().get(NGSIConstants.NGSI_LD_CREATED_AT).getAsJsonArray().get(0).getAsJsonObject()
 					.get(NGSIConstants.JSON_LD_VALUE).getAsString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception ::", e);
 			logger.warn("original createdAt element not found, using current timestamp");
 		}
 

@@ -323,7 +323,7 @@ public final class HttpUtils {
 		try {
 			httpClient = getClient(authScope, credentials);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Exception ::", e);
 			return null;
 		}
 		HttpRequestBase request;
@@ -794,45 +794,53 @@ public final class HttpUtils {
 
 	public void downloadFile(URI uri, File target, AuthScope authScope, UsernamePasswordCredentials credentials)
 			throws IOException {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		if (httpProxy != null) {
-			httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, httpProxy);
-		}
-		if (credentials != null) {
-			httpClient.getCredentialsProvider().setCredentials(authScope, credentials);
-		}
-
-		HttpResponse response;
-		response = httpClient.execute(new HttpGet(uri));
-		StatusLine status = response.getStatusLine();
-		httpClient.close();
-		if (status.getStatusCode() != HttpServletResponse.SC_OK) {
-			throw new HttpErrorResponseException(status.getStatusCode(), status.getReasonPhrase());
-		}
-		InputStream input = null;
-		OutputStream output = null;
-		byte[] buffer = new byte[BUFFER_SIZE];
-
+		DefaultHttpClient httpClient = null;
 		try {
-			input = response.getEntity().getContent();
-			output = new FileOutputStream(target);
-
-			while (true) {
-				int length = input.read(buffer);
-				if (length > 0) {
-					output.write(buffer, 0, length);
-				} else {
+			httpClient = new DefaultHttpClient();
+			
+			if (httpProxy != null) {
+				httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, httpProxy);
+			}
+			if (credentials != null) {
+				httpClient.getCredentialsProvider().setCredentials(authScope, credentials);
+			}
+	
+			HttpResponse response;
+			response = httpClient.execute(new HttpGet(uri));
+			StatusLine status = response.getStatusLine();
+			httpClient.close();
+			
+			if (status.getStatusCode() != HttpServletResponse.SC_OK) {
+				throw new HttpErrorResponseException(status.getStatusCode(), status.getReasonPhrase());
+			}
+			
+			InputStream input = null;
+			OutputStream output = null;
+			byte[] buffer = new byte[BUFFER_SIZE];
+			
+			try {
+				input = response.getEntity().getContent();
+				output = new FileOutputStream(target);
+	
+				while (true) {
+					int length = input.read(buffer);
+					if (length > 0) {
+						output.write(buffer, 0, length);
+					} else {
+						input.close();
+						break;
+					}
+				}
+			} finally {
+				if (output != null) {
+					output.close();
+				}
+				if (input != null) {
 					input.close();
-					break;
 				}
 			}
-		} finally {
-			if (output != null) {
-				output.close();
-			}
-			if (input != null) {
-				input.close();
-			}
+		}finally {
+			httpClient.close();
 		}
 	}
 
@@ -1062,7 +1070,7 @@ public final class HttpUtils {
 			zipOutputStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Exception ::", e);
 		}
 
 		return baos.toByteArray();

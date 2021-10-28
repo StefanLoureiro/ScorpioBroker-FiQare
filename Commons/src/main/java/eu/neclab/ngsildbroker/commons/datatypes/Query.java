@@ -133,9 +133,9 @@ public class Query extends BaseOperation {
 	public void removeEntityInfo(EntityInfo entity) {
 		this.entities.remove(entity);
 	}
-
+	@Override
 	public void finalize() throws Throwable {
-
+		super.finalize();
 	}
 
 }

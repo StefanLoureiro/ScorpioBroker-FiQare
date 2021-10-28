@@ -147,11 +147,11 @@ public class CSourceSubscriptionService {
 				subscribe(subscriptionRequest, false);
 			} catch (JsonParseException e) {
 				logger.error("Exception ::", e);
-				e.printStackTrace();
+				
 				continue;
 			} catch (ResponseException e) {
 				logger.error("Exception ::", e);
-				e.printStackTrace();
+				
 				continue;
 			}
 		}
