@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.github.jsonld-java</groupId>
 			<artifactId>jsonld-java</artifactId>
-			<version>0.13.1</version>
+			<version>0.13.3</version>
 		</dependency>
 
 		<dependency>
@@ -62,12 +62,12 @@
 		<dependency>
 			<groupId>com.github.filosganga</groupId>
 			<artifactId>geogson-core</artifactId>
-			<version>1.4.0</version>
+			<version>1.4.26</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.filosganga</groupId>
 			<artifactId>geogson-jts</artifactId>
-			<version>1.4.0</version>
+			<version>1.4.26</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
